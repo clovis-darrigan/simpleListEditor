@@ -55,7 +55,7 @@
  		# Functions to render views
  		# -------------------------------------------------------
  		public function Index($type="") {
- 			//$universe=$this->request->getParameter('universe', pString);
+            // Record types lists
             $recordtype_lists = $this->opo_config->get("recordtype_lists");
             $this->view->setVar("recordtype_lists", $recordtype_lists);
 
@@ -67,12 +67,29 @@
                     "id" => $this->opa_listIdsFromIdno["$list"],
                     "root" =>$vt_list->getRootItemIDForList()
                 );
-                //var_dump($vt_list->getListItemsAsHierarchy());die();
             }
             $this->view->setVar("pa_recordtype_lists", $va_lists);
             $this->view->setVar("pa_recordtype_lists_info", $va_lists_info);
 
-            //var_dump($this->opo_config->get("recordtype_lists"));die();
+            // Classic lists
+            $lists = $this->opo_config->get("lists");
+            $this->view->setVar("lists", $lists);
+
+            $va_lists = array();
+            foreach($lists as $list) {
+                $vt_list = new ca_lists($this->opa_listIdsFromIdno["$list"]);
+                $va_lists[$list] = $vt_list->getListItemsAsHierarchy();
+                $va_lists_info[$list] = array(
+                    "id" => $this->opa_listIdsFromIdno["$list"],
+                    "root" =>$vt_list->getRootItemIDForList()
+                );
+            }
+            $this->view->setVar("pa_lists", $va_lists);
+            $this->view->setVar("pa_lists_info", $va_lists_info);
+
+            // Thesaurus
+            // to be implemented
+
             $this->render('index_html.php');
  		}
 
@@ -152,10 +169,10 @@
                             'name_plural' => $_POST["label"]
                         ), $vn_locale_id, null, true);
                     @$t_item->update();
-                    var_dump($t_item->getErrors());
+                    //var_dump($t_item->getErrors());
 
                     //$this->response->setRedirect(caNavUrl($this->getRequest(), "*","*","Index"));
-                    //die("here");
+                    die("here");
                     //var_dump();
                     //die();
 
