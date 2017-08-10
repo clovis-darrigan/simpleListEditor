@@ -102,15 +102,53 @@
         }
 
         public function ListEditAjax() {
-            $post = file_get_contents('php://input');
-            var_dump($_POST["values"]);
+            $vn_locale_id = $this->opa_locale;
+            $action=array();
+            //var_dump($_POST["values"]);
+
             foreach($_POST["values"] as $value) {
-                if(!is_integer($value)) {
+                $value["label"] = str_replace("'", "&apos;", $value["label"]);
+                if(@($value["item_id"]*1 == 0)) {
                     // Not a CA id, so create it
+
                 } else {
                     // Updating
+                    $vt_item = new ca_list_items($value["item_id"]);
+
+                    $former_label = $vt_item->getLabelForDisplay();
+                    if($value["label"] != $former_label) {
+                        // Updating label
+                        $vt_item->setMode(ACCESS_WRITE);
+                        $vt_item->removeAllLabels();
+                        $vt_item->update();
+                        $vt_item->addLabel(
+                            array(
+                                'name_singular' => $value["label"],
+                                'name_plural' => $value["label"]
+                            ), $vn_locale_id, null, true);
+                        $vt_item->update();
+                        $action[$value["item_id"]][] = array(
+                            "updating label"=>"success",
+                            "previous label"=>$former_label,
+                            "new label"=>$value["label"]
+                        );
+                    }
+
+                    $former_parent = $vt_item->get("parent_id");
+                    if(($value["parent_id"] != $former_parent) && ($value["parent_id"] != "#")) {
+                        // Updating parent
+                        $vt_item->setMode(ACCESS_WRITE);
+                        $vt_item->set("parent_id",$value["parent_id"]);
+                        $vt_item->update();
+                        $action[$value["item_id"]][] = array(
+                            "updating parent"=>"success",
+                            "previous parent"=>$former_parent,
+                            "new parent"=>$value["parent_id"]
+                        );
+                    }
                 }
             }
+            print json_encode($action);
             die();
         }
 
