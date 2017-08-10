@@ -27,10 +27,10 @@
 <h2>Record types</h2>
 <?php
     foreach($pa_recordtype_lists as $ref=>$list_tree) {
-        print "<div><span style=\"cursor:pointer;\" onclick=\"jQuery('#list_$ref').slideToggle();\">🔽 ".$ref."</span>";
-        print "<ul id='list_$ref' style='display:none;'>"."\n";
         $list_id = $pa_recordtype_lists_info[$ref]["id"];
         $root_id = $pa_recordtype_lists_info[$ref]["root"];
+        print "<div><span style=\"cursor:pointer;\" onclick=\"jQuery('#list_$ref').slideToggle();\">🔽</span> <a href=".caNavUrl($this->request, "*", "*", "Edit", array("list"=>$list_id)).">".$ref."</a>";
+        print "<ul id='list_$ref' style='display:none;'>"."\n";
         foreach ($list_tree as $item) {
             $item = reset($item);
             $vt_item = new ca_list_items($item["item_id"]);
@@ -47,7 +47,7 @@
 <h2>Lists</h2>
 <?php
     foreach($pa_lists as $ref=>$list_tree) {
-        print "<div><span style=\"cursor:pointer;\" onclick=\"jQuery('#list_$ref').slideToggle();\">🔽 ".$ref."</span>";
+        print "<div><span style=\"cursor:pointer;\" onclick=\"jQuery('#list_$ref').slideToggle();\">🔽</span> <a href=\"".caNavUrl($this->request, "*", "*", "EditItem", array("list"=>$list_id, "item"=>$item["item_id"]))."\">".$ref."";
         print "<ul id='list_$ref' style='display:none;'>"."\n";
         $list_id = $pa_lists_info[$ref]["id"];
         $root_id = $pa_lists_info[$ref]["root"];

@@ -94,9 +94,24 @@
  		}
 
         public function Edit() {
-            $list_idno=$this->request->getParameter('list', pString);
+            $list_id=$this->request->getParameter('list', pString);
+            $this->view->setVar("list_id", $list_id);
+            $vn_locale_id = $this->opa_locale;
 
             $this->render('list_edit_html.php');
+        }
+
+        public function ListEditAjax() {
+            $post = file_get_contents('php://input');
+            var_dump($_POST["values"]);
+            foreach($_POST["values"] as $value) {
+                if(!is_integer($value)) {
+                    // Not a CA id, so create it
+                } else {
+                    // Updating
+                }
+            }
+            die();
         }
 
         public function EditItem() {
