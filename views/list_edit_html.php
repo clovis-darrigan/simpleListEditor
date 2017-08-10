@@ -28,7 +28,7 @@
     foreach($list->getListItemsAsHierarchy() as $item) {
         $item = reset($item);
         $vt_item = new ca_list_items($item["item_id"]);
-        print "\t\t{ 'id' : '".$item["item_id"]."', 'parent' : '".($item["parent_id"] > 0 ? $item["parent_id"] : "#")."', 'text' : '".$vt_item->getLabelForDisplay()."' },\n";
+        print "\t\t{ 'id' : '".$item["item_id"]."', 'parent' : '".($item["parent_id"] > 0 ? $item["parent_id"] : "#")."', 'text' : \"".$vt_item->getLabelForDisplay()."\" },\n";
     }
     ?>
     ];
