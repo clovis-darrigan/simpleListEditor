@@ -50,7 +50,7 @@
                     sel = ref.get_selected();
                 if(!sel.length) { return false; }
                 sel = sel[0];
-                sel = ref.create_node(sel, {"type":"file"});
+                sel = ref.create_node(sel, {"type":"default"});
                 if(sel) {
                     ref.edit(sel);
                 }

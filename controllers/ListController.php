@@ -102,15 +102,43 @@
         }
 
         public function ListEditAjax() {
+            $list_id=$this->request->getParameter('list', pInteger);
+            $list = new ca_lists($list_id);
             $vn_locale_id = $this->opa_locale;
             $action=array();
-            //var_dump($_POST["values"]);
+
 
             foreach($_POST["values"] as $value) {
                 $value["label"] = str_replace("'", "&apos;", $value["label"]);
                 if(@($value["item_id"]*1 == 0)) {
                     // Not a CA id, so create it
+                    $vs_item_value = $value["label"];
+                    $vs_item_idno = $vs_item_value;
+                    $vs_type = null;
+                    $vs_status = 0;
+                    $vs_access = 0;
+                    $vs_rank = 0;
+                    $vn_enabled = 1;
+                    $vn_default = 0;
+                    $vn_type_id = $list->getItemIDFromList('list_item_types', 'concept');
 
+                    $t_item = $list->addItem($vs_item_value, $vn_enabled, $vn_default, $value["parent_id"], $vn_type_id, $vs_item_idno, '', (int)$vs_status, (int)$vs_access, (int)$vs_rank);
+
+                    if (($list->numErrors() > 0) || !is_object($t_item)) {
+                        $this->addError("There was an error while inserting list item {$vs_item_idno}: ".join(" ",$list->getErrors()));
+                        //return false;
+                        $this->render('index_html.php');
+                    } else {
+                        $this->logStatus(_t('Successfully updated/inserted list item with idno %1', $vs_item_idno));
+                        $t_item->setMode(ACCESS_WRITE);
+                        @$t_item->update();
+                        @$t_item->addLabel(
+                            array(
+                                'name_singular' => $value["label"],
+                                'name_plural' => $value["label"]
+                            ), $vn_locale_id, null, true);
+                        @$t_item->update();
+                    }
                 } else {
                     // Updating
                     $vt_item = new ca_list_items($value["item_id"]);
