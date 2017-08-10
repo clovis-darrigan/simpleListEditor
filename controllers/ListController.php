@@ -210,7 +210,6 @@
                 $this->view->setVar("item_id", $item_id);
 
                 $this->render('edit_item_html.php');
-
             }
         }
 
@@ -266,6 +265,23 @@
                 $this->view->setVar("list_id", $list_id);
                 $this->render('add_item_html.php');
             }
+        }
+
+        function DeleteConceptAjax() {
+            $list_id=$this->request->getParameter('list', pInteger);
+            $list = new ca_lists($list_id);
+            $vn_locale_id = $this->opa_locale;
+            $action=array();
+
+            $vt_item = new ca_list_items($_POST["id"]);
+            $vt_item->setMode(ACCESS_WRITE);
+            $vt_item->delete();
+            print json_encode(
+                array(
+                    "deleting"=>"success",
+                    "id"=>$_POST["id"]
+                )
+            );
         }
  	}
  ?>

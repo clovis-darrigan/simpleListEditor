@@ -66,7 +66,19 @@
                 var ref = $('#jstree_demo').jstree(true),
                     sel = ref.get_selected();
                 if(!sel.length) { return false; }
-                ref.delete_node(sel);
+                console.log("deleting list item "+sel[0]+"...");
+                $.ajax({
+                    method: "POST",
+                    url : "<?php print caNavUrl($this->request, "*", "*", "DeleteConceptAjax",array("list"=>$list_id)); ?>",
+                    data : {id:sel[0]}
+                }).done(
+                    function(data) {
+                        console.log(data);
+                        ref.delete_node(sel);
+                    }
+                );
+
+
             };
             function list_record() {
                 $("#message").html("Saving ...");
