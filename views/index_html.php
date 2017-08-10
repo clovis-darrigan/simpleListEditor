@@ -24,7 +24,7 @@
 <h2>Record types</h2>
 <?php
     foreach($pa_recordtype_lists as $ref=>$list_tree) {
-        print "<div><span onclick=\"jQuery('#list_$ref').slideToggle();\">🔽</span> ".$ref;
+        print "<div><span style=\"cursor:pointer;\" onclick=\"jQuery('#list_$ref').slideToggle();\">🔽 ".$ref."</span>";
         print "<ul id='list_$ref' style='display:none;'>"."\n";
         $list_id = $pa_recordtype_lists_info[$ref]["id"];
         $root_id = $pa_recordtype_lists_info[$ref]["root"];
@@ -35,5 +35,7 @@
                 print "<li><a href=\"".caNavUrl($this->request, "*", "*", "EditItem", array("list"=>$list_id, "item"=>$item["item_id"]))."\">".$vt_item->getLabelForDisplay()." <small>[".$item["idno"]."]</small></a></li>\n";
             }
         }
-        print "<p>✚ Ajouter un concept</p></ul></div>\n";
+        print "<p>".
+            "<a class=\"button\" href=\"".caNavUrl($this->request, "*", "*", "AddItem", array("list"=>$list_id))."\">".
+            "✚ Ajouter un concept</a></p></ul></div>\n";
     }
