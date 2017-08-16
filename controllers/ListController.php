@@ -31,10 +31,11 @@
  		public function __construct(&$po_request, &$po_response, $pa_view_paths=null) {
             parent::__construct($po_request, $po_response, $pa_view_paths);
  			
- 			if (!$this->request->user->canDoAction('can_use_simplelisteditor_plugin')) {
+ 			// NO RIGHTS CHECKED FOR NOW
+ 			/*if (!$this->request->user->canDoAction('can_use_simplelisteditor_plugin')) {
  				$this->response->setRedirect($this->request->config->get('error_display_url').'/n/3000?r='.urlencode($this->request->getFullUrlPath()));
  				return;
- 			}
+ 			}*/
  			
  			$this->opo_config = Configuration::load(__CA_APP_DIR__.'/plugins/simpleListEditor/conf/simpleListEditor.conf');
 

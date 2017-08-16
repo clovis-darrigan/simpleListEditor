@@ -16,8 +16,6 @@
 ?>
 <!-- <link rel="stylesheet" href="//static.jstree.com/3.3.4/assets/bootstrap/css/bootstrap.min.css" />-->
 <link rel="stylesheet" href="//static.jstree.com/3.3.4/assets/dist/themes/default/style.min.css" />
-<script src="//static.jstree.com/3.3.4/assets/jquery-1.10.2.min.js"></script>
-<script src="//static.jstree.com/3.3.4/assets/jquery.address-1.6.js"></script>
 <script src="//static.jstree.com/3.3.4/assets/vakata.js"></script>
 <script src="//static.jstree.com/3.3.4/assets/dist/jstree.min.js"></script>
 

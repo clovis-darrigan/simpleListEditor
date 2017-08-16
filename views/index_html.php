@@ -35,7 +35,7 @@
 <h2>Lists</h2>
 <?php
     foreach($pa_lists as $ref=>$list_tree) {
-        $list_id = $pa_recordtype_lists_info[$ref]["id"];
+        $list_id = $pa_lists_info[$ref]["id"];
         print "<a href=".caNavUrl($this->request, "*", "*", "Edit", array("list"=>$list_id)).">".$ref."</a> ";
     }
 ?>
